@@ -14,6 +14,10 @@ module.exports = {
     filename: 'ckeditor.js',
     path: path.resolve(__dirname, 'dist')
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist'
+  },
   module: {
     rules: [
       {
