@@ -43684,6 +43684,19 @@ DecoupledEditor.build = {
 	}
 };
 
+console.log(DecoupledEditor)
+
+DecoupledEditor
+  .create( document.querySelector( '.document-editor__editable' ))
+  .then( editor => {
+    // Append the toolbar to the <body> element.
+    document.body.appendChild( editor.ui.view.toolbar.element );
+    console.log( 'Editor was initialized', editor );
+  } )
+  .catch( err => {
+    console.error( err );
+  } );
+
 
 /***/ }),
 /* 298 */
