@@ -20,6 +20,28 @@ module.exports = {
   },
   module: {
     rules: [
+      { // Bootstrap
+        test: /\.(scss)$/,
+        use: [
+          {
+            loader: 'style-loader', // inject CSS to page
+          }, {
+            loader: 'css-loader', // translates CSS into CommonJS modules
+          }, {
+            loader: 'postcss-loader', // Run post css actions
+            options: {
+              plugins: function () { // post css plugins, can be exported to postcss.config.js
+                return [
+                  require('precss'),
+                  require('autoprefixer')
+                ];
+              }
+            }
+          }, {
+            loader: 'sass-loader' // compiles Sass to CSS
+          }
+        ]
+      },
       {
         // Or /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/ if you want to limit this loader
         // to CKEditor 5's icons only.
