@@ -24,8 +24,18 @@ import Link from '@ckeditor/ckeditor5-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import CollaborativeEditing from '@ckeditor/ckeditor5-collaboration/src/collaborativeediting';
+import getDataFromElement from '@ckeditor/ckeditor5-utils/src/dom/getdatafromelement';
 
-export default class DecoupledEditor extends DecoupledEditorBase {}
+export default class DecoupledEditor extends DecoupledEditorBase {
+	constructor( elementOrData, config )  {
+		super( elementOrData, config );
+
+		// It should help with debugging.
+		this.listenTo( this, 'crash', ( evt, data ) => {
+			console.error( 'crash', evt, data );
+		} );
+	}
+}
 
 DecoupledEditor.build = {
 	plugins: [
@@ -53,13 +63,13 @@ DecoupledEditor.build = {
 		Paragraph,
 		CollaborativeEditing
 	],
-	cloudServices: {
-		tokenUrl: 'https://16307.cke-cs.com/token/dev/OBSCURED',
-    uploadUrl: 'https://16307.cke-cs.com/easyimage/upload/',
-		webSocketUrl: 'https://16307.cke-cs.com/ws',
-		documentId: 'somethingunique'
-	},
 	config: {
+		cloudServices: {
+			tokenUrl: 'https://16307.cke-cs.com/token/dev/sensored',
+			uploadUrl: 'https://16307.cke-cs.com/easyimage/upload/',
+			webSocketUrl: 'ws://16307.cke-cs.com/ws',
+			documentId: 'somethingunique'
+		},
 		toolbar: {
 			items: [
 				'heading',
@@ -88,8 +98,9 @@ DecoupledEditor.build = {
 		},
 		image: {
 			toolbar: [
+				'imageStyle:alignLeft',
 				'imageStyle:full',
-				'imageStyle:side',
+				'imageStyle:alignRight',
 				'|',
 				'imageTextAlternative'
 			]
@@ -98,12 +109,12 @@ DecoupledEditor.build = {
 	}
 };
 
-console.log(DecoupledEditor)
+console.log( DecoupledEditor );
 
 DecoupledEditor
-  .create( document.querySelector( '.document-editor__editable' ))
+  .create( document.querySelector( '.document-editor__editable' ) )
   .then( editor => {
-    document.querySelector('.document-editor__toolbar').appendChild( editor.ui.view.toolbar.element );
+    document.querySelector( '.document-editor__toolbar' ).appendChild( editor.ui.view.toolbar.element );
     window.editor = editor;
   } )
   .catch( err => {
